@@ -1,5 +1,6 @@
 // This replaces writing separate action creators and reducers
 import { createSlice } from "@reduxjs/toolkit";
+import { evaluate as mathEvaluate } from "mathjs";
 
 const initialState = {
   expression: "",
@@ -76,7 +77,7 @@ const calculatorSlice = createSlice({
     evaluate: (state) => {
       try {
         const sanitized = state.expression.replace(/[^-()\d/*+.]/g, "");
-        const result = eval(sanitized) || "0";
+        const result = mathEvaluate(sanitized) || "0";
         state.expression += "=" + result;
         state.current = result.toString();
         state.evaluated = true;
